@@ -1,1 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LUXBUILD — Luxury Construction</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Outfit',sans-serif;
+  background:#060606;
+  color:white;
+  overflow-x:hidden;
+}
+
+/* =========================
+   CURSOR
+========================= */
+
+.cursor{
+  width:25px;
+  height:25px;
+  border:1px solid rgba(255,255,255,0.7);
+  border-radius:50%;
+  position:fixed;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  z-index:99999;
+  transition:0.08s;
+  backdrop-filter:blur(5px);
+}
+
+/* =========================
+   FLOATING OBJECTS
+========================= */
+
+.floating{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  z-index:-1;
+}
+
+.floating span{
+  position:absolute;
+  display:block;
+  width:120px;
+  height:120px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(10px);
+  animation:float 20s linear infinite;
+}
+
+.floating span:nth-child(1){
+  left:10%;
+  animation-duration:22s;
+}
+
+.floating span:nth-child(2){
+  left:40%;
+  width:180px;
+  height:180px;
+  animation-duration:30s;
+}
+
+.floating span:nth-child(3){
+  left:75%;
+  width:90px;
+  height:90px;
+  animation-duration:18s;
+}
+
+@keyframes float{
+  0%{
+    transform:translateY(120vh) rotate(0deg);
+  }
+  100%{
+    transform:translateY(-150vh) rotate(360deg);
+  }
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+header{
+  position:fixed;
+  top:0;
+  width:100%;
+  padding:25px 7%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:999;
+  backdrop-filter:blur(20px);
+  background:rgba(0,0,0,0.3);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.logo{
+  font-size:30px;
+  font-weight:700;
+  letter-spacing:3px;
+}
+
+nav{
+  display:flex;
+  gap:35px;
+}
+
+nav a{
+  color:white;
+  text-decoration:none;
+  font-size:15px;
+  position:relative;
+}
+
+nav a::after{
+  content:'';
+  position:absolute;
+  width:0;
+  height:1px;
+  background:white;
+  bottom:-5px;
+  left:0;
+  transition:0.4s;
+}
+
+nav a:hover::after{
+  width:100%;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:0 10%;
+  position:relative;
+}
+
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+  linear-gradient(to bottom,
+  rgba(0,0,0,0.7),
+  rgba(0,0,0,0.9)),
+  url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2070&auto=format&fit=crop');
+  background-size:cover;
+  background-position:center;
+  transform:scale(1.1);
+  z-index:-1;
+}
+
+.hero-content{
+  transform-style:preserve-3d;
+}
+
+.hero h1{
+  font-size:90px;
+  line-height:1;
+  margin-bottom:25px;
+  text-transform:uppercase;
+}
+
+.hero p{
+  max-width:750px;
+  margin:auto;
+  font-size:20px;
+  line-height:1.8;
+  color:#d8d8d8;
+}
+
+.hero button{
+  margin-top:40px;
+  padding:18px 40px;
+  background:white;
+  color:black;
+  border:none;
+  font-size:15px;
+  cursor:pointer;
+  transition:0.4s;
+}
+
+.hero button:hover{
+  transform:translateY(-5px);
+}
+
+/* =========================
+   PARALLAX SECTION
+========================= */
+
+.parallax{
+  height:100vh;
+  background:url('https://images.unsplash.com/photo-1489515217757-5fd1be406fef?q=80&w=2070&auto=format&fit=crop');
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.parallax h2{
+  font-size:70px;
+  text-transform:uppercase;
+  backdrop-filter:blur(12px);
+  background:rgba(255,255,255,0.08);
+  padding:40px 60px;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+/* =========================
+   STORY SECTION
+========================= */
+
+.story{
+  padding:140px 10%;
+}
+
+.story-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:60px;
+  align-items:center;
+}
+
+.story img{
+  width:100%;
+  border-radius:30px;
+}
+
+.glass{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:50px;
+  border-radius:30px;
+  backdrop-filter:blur(20px);
+}
+
+.story h3{
+  font-size:55px;
+  margin-bottom:30px;
+}
+
+.story p{
+  color:#bcbcbc;
+  line-height:1.9;
+  font-size:18px;
+}
+
+/* =========================
+   SERVICES
+========================= */
+
+.services{
+  padding:120px 8%;
+}
+
+.services-title{
+  text-align:center;
+  font-size:70px;
+  margin-bottom:80px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:35px;
+}
+
+.card{
+  padding:40px;
+  border-radius:25px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,0.1);
+  transition:0.5s;
+}
+
+.card:hover{
+  transform:translateY(-15px);
+}
+
+.card h4{
+  font-size:28px;
+  margin-bottom:20px;
+}
+
+.card p{
+  color:#c9c9c9;
+  line-height:1.8;
+}
+
+/* =========================
+   QUIZ
+========================= */
+
+.quiz{
+  padding:130px 10%;
+  text-align:center;
+}
+
+.quiz-box{
+  max-width:700px;
+  margin:auto;
+  padding:60px;
+  border-radius:30px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+.quiz h2{
+  font-size:55px;
+  margin-bottom:30px;
+}
+
+.quiz button{
+  margin-top:20px;
+  padding:15px 35px;
+  background:white;
+  border:none;
+  cursor:pointer;
+  font-size:16px;
+}
+
+/* =========================
+   GAMIFIED SECTION
+========================= */
+
+.game{
+  padding:150px 10%;
+  text-align:center;
+}
+
+.counter{
+  font-size:130px;
+  font-weight:700;
+}
+
+.game button{
+  margin-top:25px;
+  padding:18px 40px;
+  background:white;
+  color:black;
+  border:none;
+  cursor:pointer;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+  padding:60px;
+  text-align:center;
+  border-top:1px solid rgba(255,255,255,0.1);
+  color:#999;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+  .hero h1{
+    font-size:55px;
+  }
+
+  .story-grid{
+    grid-template-columns:1fr;
+  }
+
+  .services-title,
+  .quiz h2,
+  .story h3{
+    font-size:42px;
+  }
+
+  nav{
+    display:none;
+  }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="cursor"></div>
+
+<div class="floating">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<header>
+
+<div class="logo">
+LUXBUILD
+</div>
+
+<nav>
+<a href="#">Home</a>
+<a href="#">Projects</a>
+<a href="#">Services</a>
+<a href="#">Story</a>
+<a href="#">Contact</a>
+</nav>
+
+</header>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>
+Building the Future of Luxury
+</h1>
+
+<p>
+A cinematic construction experience blending innovation, elegance,
+architecture, and interactive storytelling into one immersive digital journey.
+</p>
+
+<button>
+Explore Projects
+</button>
+
+</div>
+
+</section>
+
+<section class="parallax">
+
+<h2>
+Architectural Excellence
+</h2>
+
+</section>
+
+<section class="story">
+
+<div class="story-grid">
+
+<img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?q=80&w=1974&auto=format&fit=crop">
+
+<div class="glass">
+
+<h3>
+Crafted Through Vision
+</h3>
+
+<p>
+Every project begins with imagination and ends with iconic architecture.
+We transform luxury concepts into physical masterpieces using advanced
+engineering and modern aesthetics.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="services">
+
+<h2 class="services-title">
+Luxury Construction Services
+</h2>
+
+<div class="cards">
+
+<div class="card">
+<h4>Residential Villas</h4>
+<p>
+Ultra-premium residences designed with precision and luxury materials.
+</p>
+</div>
+
+<div class="card">
+<h4>Commercial Towers</h4>
+<p>
+Futuristic skyscrapers with innovative engineering and elite design.
+</p>
+</div>
+
+<div class="card">
+<h4>Interior Architecture</h4>
+<p>
+Elegant interior environments merging modernism with timeless luxury.
+</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="quiz">
+
+<div class="quiz-box">
+
+<h2>
+Find Your Perfect Construction Style
+</h2>
+
+<p id="quizText">
+Do you prefer modern glass architecture?
+</p>
+
+<button onclick="nextQuiz()">
+Yes
+</button>
+
+</div>
+
+</section>
+
+<section class="game">
+
+<h2>
+Gamified Experience
+</h2>
+
+<div class="counter" id="counter">
+0
+</div>
+
+<button onclick="increaseCounter()">
+Build Prestige
+</button>
+
+</section>
+
+<footer>
+
+© 2026 LUXBUILD — Luxury Construction Experience
+
+</footer>
+
+<script>
+
+/* =========================
+   CURSOR
+========================= */
+
+const cursor = document.querySelector('.cursor');
+
+document.addEventListener('mousemove',e=>{
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+
+/* =========================
+   3D HERO EFFECT
+========================= */
+
+const hero = document.querySelector('.hero-content');
+
+document.addEventListener('mousemove',(e)=>{
+
+  let x = (window.innerWidth / 2 - e.pageX) / 30;
+  let y = (window.innerHeight / 2 - e.pageY) / 30;
+
+  hero.style.transform =
+  `rotateY(${x}deg) rotateX(${-y}deg)`;
+
+});
+
+/* =========================
+   QUIZ
+========================= */
+
+const questions = [
+  "Do you prefer modern glass architecture?",
+  "Would you like a luxury rooftop experience?",
+  "Do you enjoy futuristic interior design?"
+];
+
+let currentQuestion = 0;
+
+function nextQuiz(){
+
+  currentQuestion++;
+
+  if(currentQuestion < questions.length){
+
+    document.getElementById('quizText').innerHTML =
+    questions[currentQuestion];
+
+  }else{
+
+    document.getElementById('quizText').innerHTML =
+    "Perfect. Your luxury architectural profile is complete.";
+
+  }
+
+}
+
+/* =========================
+   GAME COUNTER
+========================= */
+
+let count = 0;
+
+function increaseCounter(){
+
+  count += 10;
+
+  document.getElementById('counter').innerHTML = count;
+
+}
+
+</script>
+
+</body>
+</html>
