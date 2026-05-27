@@ -1,1 +1,1209 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurelia Building Construction | Our Story</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/index.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5.0.12/index.css" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #E8D5A3;
+            --navy: #1A2744;
+            --navy-dark: #0F1A2E;
+            --charcoal: #2C3440;
+            --cream: #F9F6F0;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.4s ease;
+            padding: 1.2rem 0;
+        }
+
+        .navbar.scrolled {
+            background: rgba(15, 26, 46, 0.97);
+            backdrop-filter: blur(12px);
+            padding: 0.8rem 0;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+
+        .nav-link {
+            position: relative;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--gold);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        /* Hero Section */
+        .story-hero {
+            min-height: 60vh;
+            background: linear-gradient(135deg, rgba(15, 26, 46, 0.92), rgba(26, 39, 68, 0.88)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%231A2744" width="1200" height="600"/><g opacity="0.1"><line x1="0" y1="0" x2="1200" y2="600" stroke="%23C9A84C" stroke-width="1"/><line x1="200" y1="0" x2="1400" y2="600" stroke="%23C9A84C" stroke-width="0.5"/><line x1="400" y1="0" x2="1600" y2="600" stroke="%23C9A84C" stroke-width="0.5"/><line x1="1200" y1="0" x2="0" y2="600" stroke="%23C9A84C" stroke-width="1"/><line x1="1000" y1="0" x2="-200" y2="600" stroke="%23C9A84C" stroke-width="0.5"/><line x1="800" y1="0" x2="-400" y2="600" stroke="%23C9A84C" stroke-width="0.5"/></g></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(15, 26, 46, 0.4) 100%);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            animation: fadeInDown 1s ease 0.2s both;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator span {
+            display: block;
+            width: 24px;
+            height: 40px;
+            border: 2px solid rgba(201, 168, 76, 0.6);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .scroll-indicator span::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 2px;
+            animation: scrollDot 2s infinite;
+        }
+
+        /* Founding Section */
+        .founding-section {
+            padding: 8rem 0;
+            background: var(--cream);
+            position: relative;
+        }
+
+        .founding-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+        }
+
+        .section-label {
+            display: inline-block;
+            color: var(--gold);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .section-label::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 2rem;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: var(--navy);
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        .text-content p {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .drop-cap::first-letter {
+            font-family: 'Playfair Display', serif;
+            float: left;
+            font-size: 4rem;
+            line-height: 0.8;
+            padding-right: 0.5rem;
+            padding-top: 0.2rem;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .image-frame {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+        }
+
+        .image-frame::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            z-index: -1;
+        }
+
+        .image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .placeholder-img {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--charcoal) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 4rem;
+            min-height: 400px;
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            padding: 8rem 0;
+            background: var(--navy-dark);
+            position: relative;
+        }
+
+        .timeline-section .section-title {
+            color: #fff;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: calc(50% + 40px);
+            position: relative;
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: calc(50% + 40px);
+            transform: translateX(30px);
+        }
+
+        .timeline-item:nth-child(even).visible {
+            transform: translateX(0);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 2rem;
+            width: 16px;
+            height: 16px;
+            background: var(--gold);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 0 4px var(--navy-dark), 0 0 0 6px var(--gold);
+        }
+
+        .timeline-content {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 450px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border-color: var(--gold);
+        }
+
+        .timeline-year {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .timeline-desc {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Values Section */
+        .values-section {
+            padding: 8rem 0;
+            background: var(--cream);
+        }
+
+        .value-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .value-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .value-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+        }
+
+        .value-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--navy), var(--charcoal));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .value-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--gold);
+        }
+
+        .value-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--navy);
+            margin-bottom: 1rem;
+        }
+
+        .value-desc {
+            color: #666;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--navy), var(--navy-dark));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%23C9A84C" stroke-width="0.2" opacity="0.1"/><circle cx="50" cy="50" r="30" fill="none" stroke="%23C9A84C" stroke-width="0.2" opacity="0.1"/></svg>');
+            background-size: 200px;
+            opacity: 0.5;
+        }
+
+        .stat-item {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 8rem 0;
+            background: #fff;
+        }
+
+        .team-card {
+            text-align: center;
+            transition: transform 0.4s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .team-avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            overflow: hidden;
+            border: 4px solid var(--cream);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .team-avatar .avatar-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--navy), var(--charcoal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .team-avatar .avatar-placeholder svg {
+            width: 60px;
+            height: 60px;
+            fill: var(--gold);
+            opacity: 0.8;
+        }
+
+        .team-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--navy);
+            margin-bottom: 0.3rem;
+        }
+
+        .team-role {
+            color: var(--gold);
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .team-bio {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        /* Quote Section */
+        .quote-section {
+            padding: 6rem 0;
+            background: var(--navy);
+            text-align: center;
+            position: relative;
+        }
+
+        .quote-mark {
+            font-family: 'Playfair Display', serif;
+            font-size: 8rem;
+            color: var(--gold);
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: -2rem;
+        }
+
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #fff;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .quote-author {
+            color: var(--gold);
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--gold), #B8953F);
+            text-align: center;
+        }
+
+        .cta-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--navy-dark);
+            margin-bottom: 1rem;
+        }
+
+        .cta-text {
+            color: rgba(15, 26, 46, 0.7);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: var(--navy);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            background: var(--navy-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--navy-dark);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .footer-logo span {
+            color: var(--gold);
+        }
+
+        .footer-text {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-top: 1rem;
+        }
+
+        .footer-heading {
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .footer-links a {
+            display: block;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 3rem;
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.85rem;
+        }
+
+        /* Mobile Menu */
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .mobile-toggle span {
+            width: 28px;
+            height: 2px;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        @keyframes scrollDot {
+            0% { opacity: 1; top: 6px; }
+            100% { opacity: 0; top: 20px; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: var(--navy-dark);
+                flex-direction: column;
+                padding: 5rem 2rem 2rem;
+                transition: right 0.4s ease;
+                box-shadow: -5px 0 30px rgba(0,0,0,0.3);
+            }
+
+            .nav-menu.open {
+                right: 0;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                padding-right: 0;
+                padding-left: 60px;
+                justify-content: flex-start;
+            }
+
+            .timeline-item:nth-child(even) {
+                padding-left: 60px;
+                padding-right: 0;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .timeline-content {
+                max-width: 100%;
+            }
+
+            .quote-text {
+                font-size: 1.4rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container mx-auto px-6 flex items-center justify-between">
+            <a href="index.html" class="logo">AURELIA<span>.</span></a>
+            <div class="hidden md:flex items-center space-x-8" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="our-story.html" class="nav-link active">Our Story</a>
+                <a href="index.html#services" class="nav-link">Services</a>
+                <a href="index.html#projects" class="nav-link">Projects</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="nav-menu flex flex-col space-y-6 md:hidden" id="mobileMenu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="our-story.html" class="nav-link active">Our Story</a>
+        <a href="index.html#services" class="nav-link">Services</a>
+        <a href="index.html#projects" class="nav-link">Projects</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="story-hero">
+        <div class="relative z-10 px-6">
+            <div class="hero-badge">Est. 1998</div>
+            <h1 class="hero-title">Our Story</h1>
+            <p class="hero-subtitle">For over two decades, Aurelia Building Construction has been shaping skylines and building legacies — one project at a time.</p>
+        </div>
+        <div class="scroll-indicator">
+            <span></span>
+        </div>
+    </section>
+
+    <!-- Founding Section -->
+    <section class="founding-section">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <span class="section-label">Our Beginning</span>
+                    <h2 class="section-title">Built on Passion,<br>Driven by Purpose</h2>
+                    <div class="text-content">
+                        <p class="drop-cap">Aurelia Building Construction was founded in 1998 by visionary builder Marcus Aurelius Chen, who believed that every structure tells a story. Starting from a modest workshop with just five dedicated craftsmen, Aurelia was born from the conviction that construction is not merely about erecting buildings — it's about creating spaces where life unfolds.</p>
+                        <p>Our founder's philosophy was simple yet revolutionary: treat every project as if it were our own home. This ethos became the cornerstone of everything we do, guiding us through two decades of growth, innovation, and unwavering commitment to excellence.</p>
+                        <p>Today, Aurelia stands as one of the region's most trusted construction firms, having delivered over 500 projects ranging from luxury residences to commercial landmarks, each bearing our signature mark of quality and attention to detail.</p>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="image-frame">
+                        <div class="placeholder-img">
+                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4M9 9h1M9 13h1M9 17h1"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <span class="section-label" style="padding-left:0; display:flex; justify-content:center;">
+                    <span style="display:inline-flex; align-items:center; gap:0.75rem;">
+                        <span style="width:2rem; height:1px; background:var(--gold);"></span>
+                        Milestones
+                    </span>
+                </span>
+                <h2 class="section-title">Our Journey Through the Years</h2>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">1998</div>
+                        <h3 class="timeline-title">The Foundation</h3>
+                        <p class="timeline-desc">Marcus Aurelius Chen establishes Aurelia Building Construction with a team of five craftsmen and a dream to redefine construction quality.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2003</div>
+                        <h3 class="timeline-title">First Major Project</h3>
+                        <p class="timeline-desc">Aurelia secures its first large-scale commercial contract, delivering the 42-story Meridian Tower two months ahead of schedule.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2008</div>
+                        <h3 class="timeline-title">Expansion & Growth</h3>
+                        <p class="timeline-desc">Opening of our second regional office and expansion into sustainable green building practices, pioneering eco-friendly construction methods.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2014</div>
+                        <h3 class="timeline-title">Industry Recognition</h3>
+                        <p class="timeline-desc">Recipient of the National Construction Excellence Award and recognition as Top 50 Builder by Construction Weekly magazine.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2019</div>
+                        <h3 class="timeline-title">Digital Transformation</h3>
+                        <p class="timeline-desc">Integration of BIM technology, drone surveying, and AI-assisted project management, setting new standards for precision and efficiency.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2024</div>
+                        <h3 class="timeline-title">500+ Projects Delivered</h3>
+                        <p class="timeline-desc">Aurelia celebrates its 500th completed project milestone, with a growing portfolio spanning residential, commercial, and public infrastructure.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="stat-item reveal">
+                    <div class="stat-number" data-target="26">0</div>
+                    <div class="stat-label">Years of Excellence</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-number" data-target="500">0</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-number" data-target="350">0</div>
+                    <div class="stat-label">Team Members</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-number" data-target="15">0</div>
+                    <div class="stat-label">Industry Awards</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <span class="section-label" style="padding-left:0; display:flex; justify-content:center;">
+                    <span style="display:inline-flex; align-items:center; gap:0.75rem;">
+                        <span style="width:2rem; height:1px; background:var(--gold);"></span>
+                        Our Values
+                    </span>
+                </span>
+                <h2 class="section-title">The Principles That Guide Us</h2>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="value-card reveal">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <h3 class="value-title">Integrity First</h3>
+                    <p class="value-desc">Every decision we make is guided by transparency, honesty, and ethical practices. We believe trust is the foundation of every lasting partnership.</p>
+                </div>
+                <div class="value-card reveal">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm0-14a6 6 0 1 0 6 6 6 6 0 0 0-6-6zm0 10a4 4 0 1 1 4-4 4 4 0 0 1-4 4z"/></svg>
+                    </div>
+                    <h3 class="value-title">Sustainable Building</h3>
+                    <p class="value-desc">We are committed to environmentally responsible construction, using sustainable materials and practices that minimize our ecological footprint.</p>
+                </div>
+                <div class="value-card reveal">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h3 class="value-title">People-Centered</h3>
+                    <p class="value-desc">Our team is our greatest asset. We invest in our people, foster collaboration, and ensure every voice contributes to our collective success.</p>
+                </div>
+                <div class="value-card reveal">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+                    </div>
+                    <h3 class="value-title">Quality Without Compromise</h3>
+                    <p class="value-desc">We never cut corners. From foundation to finishing, every detail is executed with precision and care that exceeds industry standards.</p>
+                </div>
+                <div class="value-card reveal">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <h3 class="value-title">Innovation Driven</h3>
+                    <p class="value-desc">We embrace cutting-edge technology and modern methodologies to deliver projects faster, safer, and more efficiently than ever before.</p>
+                </div>
+                <div class="value-card reveal">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </div>
+                    <h3 class="value-title">Client Satisfaction</h3>
+                    <p class="value-desc">Our clients' visions are our blueprint. We listen, understand, and deliver results that not only meet but exceed expectations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="quote-section">
+        <div class="container mx-auto px-6 reveal">
+            <div class="quote-mark">"</div>
+            <p class="quote-text">We don't just build structures — we build dreams, communities, and legacies that will stand the test of time.</p>
+            <p class="quote-author">— Marcus Aurelius Chen, Founder & Chairman</p>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <span class="section-label" style="padding-left:0; display:flex; justify-content:center;">
+                    <span style="display:inline-flex; align-items:center; gap:0.75rem;">
+                        <span style="width:2rem; height:1px; background:var(--gold);"></span>
+                        Leadership
+                    </span>
+                </span>
+                <h2 class="section-title">Meet Our Leadership Team</h2>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div class="team-card reveal">
+                    <div class="team-avatar">
+                        <div class="avatar-placeholder">
+                            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+                        </div>
+                    </div>
+                    <h3 class="team-name">Marcus A. Chen</h3>
+                    <p class="team-role">Founder & Chairman</p>
+                    <p class="team-bio">Visionary leader with 30+ years in construction, passionate about building lasting legacies.</p>
+                </div>
+                <div class="team-card reveal">
+                    <div class="team-avatar">
+                        <div class="avatar-placeholder">
+                            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+                        </div>
+                    </div>
+                    <h3 class="team-name">Sarah Mitchell</h3>
+                    <p class="team-role">Chief Executive Officer</p>
+                    <p class="team-bio">Strategic leader driving Aurelia's growth and innovation across all market segments.</p>
+                </div>
+                <div class="team-card reveal">
+                    <div class="team-avatar">
+                        <div class="avatar-placeholder">
+                            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+                        </div>
+                    </div>
+                    <h3 class="team-name">David Rodriguez</h3>
+                    <p class="team-role">Chief Operations Officer</p>
+                    <p class="team-bio">Operations expert ensuring every project runs seamlessly from blueprint to handover.</p>
+                </div>
+                <div class="team-card reveal">
+                    <div class="team-avatar">
+                        <div class="avatar-placeholder">
+                            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+                        </div>
+                    </div>
+                    <h3 class="team-name">Elena Vasquez</h3>
+                    <p class="team-role">Chief Design Officer</p>
+                    <p class="team-bio">Award-winning architect bringing creative vision and sustainable design to every project.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container mx-auto px-6 reveal">
+            <h2 class="cta-title">Ready to Build Your Vision?</h2>
+            <p class="cta-text">Let's create something extraordinary together. Contact us to discuss your next project.</p>
+            <a href="index.html#contact" class="cta-btn">Start a Conversation</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-10">
+                <div>
+                    <div class="footer-logo">AURELIA<span>.</span></div>
+                    <p class="footer-text">Building excellence since 1998. We transform visions into architectural masterpieces that stand the test of time.</p>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <div class="footer-links">
+                        <a href="index.html">Home</a>
+                        <a href="our-story.html">Our Story</a>
+                        <a href="index.html#services">Services</a>
+                        <a href="index.html#projects">Projects</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Services</h4>
+                    <div class="footer-links">
+                        <a href="#">Residential Construction</a>
+                        <a href="#">Commercial Buildings</a>
+                        <a href="#">Renovation & Remodeling</a>
+                        <a href="#">Project Management</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-heading">Contact Us</h4>
+                    <div class="footer-links">
+                        <a href="#">📍 123 Construction Ave, Suite 500</a>
+                        <a href="#">📞 +1 (555) 234-5678</a>
+                        <a href="#">✉️ info@aureliabuilding.com</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Aurelia Building Construction. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+        });
+
+        // Reveal on scroll
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            revealElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    el.classList.add('visible');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+
+        // Timeline animation
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const animateTimeline = () => {
+            timelineItems.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 80) {
+                    item.classList.add('visible');
+                }
+            });
+        };
+        window.addEventListener('scroll', animateTimeline);
+        window.addEventListener('load', animateTimeline);
+
+        // Counter animation
+        const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+        let countersStarted = false;
+        const animateCounters = () => {
+            if (countersStarted) return;
+            const statsSection = document.querySelector('.stats-section');
+            const rect = statsSection.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 100) {
+                countersStarted = true;
+                statNumbers.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    const duration = 2000;
+                    const step = target / (duration / 16);
+                    let current = 0;
+                    const updateCounter = () => {
+                        current += step;
+                        if (current < target) {
+                            counter.textContent = Math.floor(current) + '+';
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.textContent = target + '+';
+                        }
+                    };
+                    updateCounter();
+                });
+            }
+        };
+        window.addEventListener('scroll', animateCounters);
+        window.addEventListener('load', animateCounters);
+    </script>
+</body>
+</html>
+```
